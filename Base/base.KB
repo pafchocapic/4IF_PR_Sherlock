@@ -1,0 +1,2514 @@
+<?xml version="1.0" encoding="ISO8859-1" ?>
+<!DOCTYPE SherlockUnit SYSTEM "SherlockUnit.dtd">
+
+<SherlockUnit>
+ <SherlockVersion> Version 12/2010 </SherlockVersion>
+ <NAME> base </NAME>
+ <CREATION> 29/11/2010 09:34:36 </CREATION>
+ <UPDATE> 06/12/2010 12:08:00 </UPDATE>
+
+ <CONFIGURATION>
+  <TraceSystem> extended </TraceSystem>
+  <TraceExec> extended </TraceExec>
+  <Autosave> ON </Autosave>
+  <Dialog>
+   <LabelSuite> Suite </LabelSuite>
+   <LabelEnd> Fin Exec </LabelEnd>
+   <LabelYes> oui </LabelYes>
+   <LabelNo> non </LabelNo>
+   <LabelKnown> connu </LabelKnown>
+   <LabelUnknown> inconnu </LabelUnknown>
+  </Dialog>
+  <Unconsistency>
+   <StandardProcess> OFF </StandardProcess>
+   <StandardDescription> ON </StandardDescription>
+   <InvolvedFact> ON </InvolvedFact>
+   <InvolvedRule> ON </InvolvedRule>
+  </Unconsistency>
+ </CONFIGURATION>
+
+ <TASKDEFS>
+  <TASKDEF  name="Tâche Principale">
+  </TASKDEF>
+ </TASKDEFS>
+
+ <BASEDEFS>
+  <METABASEDEF  name="Base de Méta Règles">
+  </METABASEDEF>
+  <BASEDEF  name="Base de Règles">
+  </BASEDEF>
+  <BASEDEF  name="Coherence">
+    <PartOf> Base de Règles </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Mise en coherence">
+    <PartOf> Coherence </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Coherence du constat">
+    <PartOf> Coherence </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Torts">
+    <PartOf> Base de Règles </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Fautes graves">
+    <PartOf> Torts </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Vehicule en stationnement">
+    <PartOf> Torts </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Vehicule quitant le stationnement">
+    <PartOf> Torts </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Vehicules sur chaussees differentes">
+    <PartOf> Torts </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Vehicules sur memes chaussees">
+    <PartOf> Torts </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Cas portiere">
+    <PartOf> Torts </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="meme sens meme file">
+    <PartOf> Vehicules sur memes chaussees </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="même sens files differentes">
+    <PartOf> Vehicules sur memes chaussees </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="meme file sens inverse">
+    <PartOf> Vehicules sur memes chaussees </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Maintenance">
+    <PartOf> Base de Règles </PartOf>
+  </BASEDEF>
+  <BASEDEF  name="Tort supplémentaires">
+    <PartOf> Torts </PartOf>
+  </BASEDEF>
+ </BASEDEFS>
+
+ <METACONCEPTS>
+  <METACONCEPT  name="²Elément de Connaissance">
+  </METACONCEPT>
+  <METACONCEPT  name="²Connaissance de Résolution">
+   <AKindOf> ²Elément de Connaissance </AKindOf>
+  </METACONCEPT>
+  <METACONCEPT  name="²Connaissance de Domaine">
+   <AKindOf> ²Elément de Connaissance </AKindOf>
+  </METACONCEPT>
+  <METACONCEPT  name="²Modèle">
+   <AKindOf> ²Connaissance de Domaine </AKindOf>
+   <ATTRIBUTES>
+    <String  name="nom">
+    </String>
+   </ATTRIBUTES>
+   <INSTANCES>
+    <INSTANCE  name="²Le modèle"> 
+     <ATTRIBUTES>
+      <String  name="nom">
+       <ToAffirm> nom du modèle : ^ </ToAffirm>
+      </String>
+     </ATTRIBUTES>
+    </INSTANCE> 
+   </INSTANCES>
+  </METACONCEPT>
+  <METACONCEPT  name="²Problème">
+   <AKindOf> ²Connaissance de Résolution </AKindOf>
+   <ATTRIBUTES>
+    <Boolean  name="incohérence à l'exécution">
+       <InitialNEQ> vrai </InitialNEQ>
+       <InitialEQ> faux </InitialEQ>
+     <ToDeny> Aucune incohérence à l'exécution </ToDeny>
+     <ToAffirm> Une incohérence est apparue lors de l'exécution </ToAffirm>
+    </Boolean>
+    <String  name="incohérence détectée par">
+     <ToAffirm> L'incohérence a été détectée par ^ </ToAffirm>
+    </String>
+    <String  name="incohérence portant sur">
+     <ToAffirm> L'incohérence porte sur ^ </ToAffirm>
+    </String>
+    <String  name="date">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="heure">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <Numerical  name="étape">
+     <Min> 0 </Min>
+     <Max> 65535 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     <ToAffirm> étape de résolution : ^ </ToAffirm>
+    </Numerical>
+    <Numerical  name="profondeur">
+     <Min> 0 </Min>
+     <Max> 65535 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     <ToAffirm> profondeur du raisonnement : ^ </ToAffirm>
+    </Numerical>
+   </ATTRIBUTES>
+   <INSTANCES>
+    <INSTANCE  name="²Le problème"> 
+     <ATTRIBUTES>
+      <Boolean  name="incohérence à l'exécution">
+       <ToDeny> Aucune incohérence à l'exécution </ToDeny>
+       <ToAffirm> Une incohérence est apparue lors de l'exécution </ToAffirm>
+      </Boolean>
+      <String  name="incohérence détectée par">
+       <ToAffirm> L'incohérence a été détectée par ^ </ToAffirm>
+      </String>
+      <String  name="incohérence portant sur">
+       <ToAffirm> L'incohérence porte sur ^ </ToAffirm>
+      </String>
+      <String  name="date">
+       <ToAffirm> ^ </ToAffirm>
+      </String>
+      <String  name="heure">
+       <ToAffirm> ^ </ToAffirm>
+      </String>
+      <Numerical  name="étape">
+       <ToAffirm> étape de résolution : ^ </ToAffirm>
+      </Numerical>
+      <Numerical  name="profondeur">
+       <ToAffirm> profondeur du raisonnement : ^ </ToAffirm>
+      </Numerical>
+     </ATTRIBUTES>
+    </INSTANCE> 
+   </INSTANCES>
+  </METACONCEPT>
+  <METACONCEPT  name="²Règle">
+   <AKindOf> ²Connaissance de Résolution </AKindOf>
+   <ATTRIBUTES>
+    <String  name="nom">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="base">
+     <ToAffirm> La règle ^I appartient à la base ^ </ToAffirm>
+    </String>
+    <String  name="commentaire">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="si">
+       <InitialEQ> Si \n </InitialEQ>
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="alors">
+       <InitialEQ> Alors \n </InitialEQ>
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <Boolean  name="utilisée">
+       <InitialNEQ> vrai </InitialNEQ>
+       <InitialEQ> faux </InitialEQ>
+     <ToDeny> La règle ^I n'a pas été utilisée </ToDeny>
+     <ToAffirm> La règle ^I a été utilisée </ToAffirm>
+    </Boolean>
+   </ATTRIBUTES>
+  </METACONCEPT>
+  <METACONCEPT  name="²Base de Règles">
+   <AKindOf> ²Connaissance de Résolution </AKindOf>
+   <ATTRIBUTES>
+    <String  name="nom">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="partie de">
+     <ToAffirm> La base ^I est une sous-base de ^ </ToAffirm>
+    </String>
+    <Boolean  name="inhibée">
+     <ToDeny> La base ^I n'est pas inhibée </ToDeny>
+     <ToAffirm> La base ^I est inhibée </ToAffirm>
+    </Boolean>
+    <String  name="commentaire">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <Numerical  name="nb règles">
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     <ToAffirm> Le nombre de règles de la base ^I est : ^ </ToAffirm>
+    </Numerical>
+   </ATTRIBUTES>
+  </METACONCEPT>
+  <METACONCEPT  name="²Méta Règle">
+   <AKindOf> ²Connaissance de Résolution </AKindOf>
+   <ATTRIBUTES>
+    <String  name="nom">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="base">
+     <ToAffirm> La méta-règle ^I appartient à la base ^ </ToAffirm>
+    </String>
+    <String  name="commentaire">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="si">
+       <InitialEQ> Si \n </InitialEQ>
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="alors">
+       <InitialEQ> Alors \n </InitialEQ>
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <Boolean  name="utilisée">
+       <InitialNEQ> vrai </InitialNEQ>
+       <InitialEQ> faux </InitialEQ>
+     <ToDeny> La méta-règle ^I n'a pas été utilisée </ToDeny>
+     <ToAffirm> La méta-règle ^I a été utilisée </ToAffirm>
+    </Boolean>
+   </ATTRIBUTES>
+  </METACONCEPT>
+  <METACONCEPT  name="²Base de Méta Règles">
+   <AKindOf> ²Connaissance de Résolution </AKindOf>
+   <ATTRIBUTES>
+    <String  name="nom">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <String  name="partie de">
+     <ToAffirm> La base ^I est une sous-base de ^ </ToAffirm>
+    </String>
+    <String  name="commentaire">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <Boolean  name="inhibée">
+     <ToDeny> La base ^I n'est pas inhibée </ToDeny>
+     <ToAffirm> La base ^I est inhibée </ToAffirm>
+    </Boolean>
+    <Numerical  name="nb méta règles">
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     <ToAffirm> Le nombre de règles de la base ^I est : ^ </ToAffirm>
+    </Numerical>
+   </ATTRIBUTES>
+  </METACONCEPT>
+  <METACONCEPT  name="²Tâche">
+   <AKindOf> ²Connaissance de Résolution </AKindOf>
+   <ATTRIBUTES>
+    <String  name="nom">
+     <ToAffirm> ^ </ToAffirm>
+    </String>
+    <Boolean  name="activée">
+       <InitialNEQ> vrai </InitialNEQ>
+       <InitialEQ> faux </InitialEQ>
+     <ToDeny> La tâche ^I n'a pas été activée </ToDeny>
+     <ToAffirm> La tâche ^I a été activée </ToAffirm>
+    </Boolean>
+    <Boolean  name="achevée">
+       <InitialNEQ> vrai </InitialNEQ>
+       <InitialEQ> faux </InitialEQ>
+     <ToDeny> La tâche ^I n'est pas achevée </ToDeny>
+     <ToAffirm> La tâche ^I est achevée </ToAffirm>
+    </Boolean>
+   </ATTRIBUTES>
+  </METACONCEPT>
+ </METACONCEPTS>
+
+ <CONCEPTS>
+  <CONCEPT  name="Chose">
+   <PartOf> •Monde• </PartOf>
+   <SetOf> •• </SetOf>
+   <NbSet> 0 </NbSet>
+   <Abstract> yes </Abstract>
+   <PROPERTIES>
+     <Numerical  name="nb instances">
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     </Numerical>
+     <Numerical  name="nb global instances">
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     </Numerical>
+   </PROPERTIES>
+  </CONCEPT>
+  <CONCEPT  name="Constat">
+   <AKindOf> Chose </AKindOf>
+   <PartOf> •Monde• </PartOf>
+   <SetOf> •• </SetOf>
+   <NbSet> 0 </NbSet>
+   <Abstract> no </Abstract>
+   <PROPERTIES>
+     <Numerical  name="nb instances">
+     <Inherited> yes </Inherited>
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     </Numerical>
+     <Numerical  name="nb global instances">
+     <Inherited> yes </Inherited>
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     </Numerical>
+   </PROPERTIES>
+   <ATTRIBUTES>
+    <Boolean  name="Coherent">
+       <DefaultEQ> vrai </DefaultEQ>
+       <DefaultNEQ> faux </DefaultNEQ>
+     <Strategy>
+     <Strat> règle </Strat>
+     <Strat> défaut </Strat>
+     </Strategy>
+    </Boolean>
+    <Monovalued  name="Categorie">
+     <Values>
+      <Val> 
+        <Value> Faute grave </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Stationnement </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Quitte stationnement </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Chaussees differentes </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Memes chaussees </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+     <Strategy>
+     <Strat> règle </Strat>
+     <Strat> question </Strat>
+     </Strategy>
+    </Monovalued>
+    <Monovalued  name="Choix">
+     <Values>
+      <Val> 
+        <Value> Créer </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Maintenir </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+    </Monovalued>
+    <Boolean  name="Agglo">
+    </Boolean>
+    <Monovalued  name="CroquisAxe">
+     <Values>
+      <Val> 
+        <Value> pointille </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> ligne continu </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+     <Strategy>
+     <Strat> question </Strat>
+     </Strategy>
+    </Monovalued>
+    <String  name="nomRègleUtilisée">
+    </String>
+    <Boolean  name="Satisfait">
+    </Boolean>
+    <Monovalued  name="défaut">
+     <Values>
+      <Val> 
+        <Value> incohérence non gérée </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> torts inconnus </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> torts erronés </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+    </Monovalued>
+    <String  name="nomRègleInco">
+    </String>
+    <String  name="nomRègleTort">
+    </String>
+   </ATTRIBUTES>
+   <INSTANCES>
+    <INSTANCE  name="C"> 
+     <ATTRIBUTES>
+      <Monovalued  name="Categorie">
+       <ToAsk> Que vaut  Categorie de C ? </ToAsk>
+       <ToDeny> Categorie de C # ^ </ToDeny>
+       <ToAffirm> Categorie de C = ^ </ToAffirm>
+      </Monovalued>
+      <Boolean  name="Coherent">
+       <DefaultEQ> vrai </DefaultEQ>
+       <DefaultNEQ> faux </DefaultNEQ>
+       <ToAsk> Est ce que  Coherent de C ? </ToAsk>
+       <ToDeny> Coherent de C est faux </ToDeny>
+       <ToAffirm> Coherent de C est vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Agglo">
+       <ToAsk> Est ce que  Agglo de C ? </ToAsk>
+       <ToDeny> $1§Agglo = faux </ToDeny>
+       <ToAffirm> $1§Agglo = vrai </ToAffirm>
+      </Boolean>
+      <Monovalued  name="CroquisAxe">
+       <ToAsk> Que vaut  CroquisAxe de C ? </ToAsk>
+       <ToDeny> CroquisAxe de C # ^ </ToDeny>
+       <ToAffirm> CroquisAxe de C = ^ </ToAffirm>
+      </Monovalued>
+      <Monovalued  name="Choix">
+       <ToAsk> Que vaut  Choix de C ? </ToAsk>
+       <ToDeny> Choix de C # ^ </ToDeny>
+       <ToAffirm> Choix de C = ^ </ToAffirm>
+      </Monovalued>
+      <String  name="nomRègleUtilisée">
+       <ToAsk> Que vaut  nomRègleUtilisée de C ? </ToAsk>
+       <ToAffirm> ^ </ToAffirm>
+      </String>
+      <Boolean  name="Satisfait">
+       <ToAsk> Est ce que  Satisfait de C ? </ToAsk>
+       <ToDeny> Satisfait de C est faux </ToDeny>
+       <ToAffirm> Satisfait de C est vrai </ToAffirm>
+      </Boolean>
+      <String  name="nomRègleInco">
+       <ToAsk> Que vaut  nomRègleInco de C ? </ToAsk>
+       <ToAffirm> ^ </ToAffirm>
+      </String>
+      <Monovalued  name="défaut">
+       <ToAsk> Que vaut  défaut de C ? </ToAsk>
+       <ToDeny> défaut de C # ^ </ToDeny>
+       <ToAffirm> défaut de C = ^ </ToAffirm>
+      </Monovalued>
+      <String  name="nomRègleTort">
+       <ToAsk> Que vaut  nomRègleTort de C ? </ToAsk>
+       <ToAffirm> ^ </ToAffirm>
+      </String>
+     </ATTRIBUTES>
+    </INSTANCE> 
+   </INSTANCES>
+  </CONCEPT>
+  <CONCEPT  name="Vehicule">
+   <AKindOf> Chose </AKindOf>
+   <PartOf> •Monde• </PartOf>
+   <SetOf> •• </SetOf>
+   <NbSet> 0 </NbSet>
+   <Abstract> no </Abstract>
+   <PROPERTIES>
+     <Numerical  name="nb instances">
+     <Inherited> yes </Inherited>
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     </Numerical>
+     <Numerical  name="nb global instances">
+     <Inherited> yes </Inherited>
+     <Min> 0 </Min>
+     <Max> 1024 </Max>
+       <InitialEQ> 0 </InitialEQ>
+     </Numerical>
+   </PROPERTIES>
+   <ATTRIBUTES>
+    <Boolean  name="Case1">
+    </Boolean>
+    <Boolean  name="Case2">
+    </Boolean>
+    <Boolean  name="Case3">
+    </Boolean>
+    <Boolean  name="Case4">
+    </Boolean>
+    <Boolean  name="Case5">
+    </Boolean>
+    <Boolean  name="Case6">
+    </Boolean>
+    <Boolean  name="Case7">
+    </Boolean>
+    <Boolean  name="Case8">
+    </Boolean>
+    <Boolean  name="Case9">
+    </Boolean>
+    <Boolean  name="Case10">
+    </Boolean>
+    <Boolean  name="Case11">
+    </Boolean>
+    <Boolean  name="Case12">
+    </Boolean>
+    <Boolean  name="Case13">
+    </Boolean>
+    <Boolean  name="Case14">
+    </Boolean>
+    <Boolean  name="Case15">
+    </Boolean>
+    <Boolean  name="Case16">
+    </Boolean>
+    <Boolean  name="Case17">
+    </Boolean>
+    <Monovalued  name="Tort">
+     <Values>
+      <Val> 
+        <Value> 0 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 25 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 50 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 75 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 100 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+     <Strategy>
+     <Strat> règle </Strat>
+     </Strategy>
+    </Monovalued>
+    <Boolean  name="StationnementRegulier">
+     <Strategy>
+     <Strat> règle </Strat>
+     <Strat> question </Strat>
+     </Strategy>
+    </Boolean>
+    <Monovalued  name="Categorie">
+     <Values>
+      <Val> 
+        <Value> Faute grave </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Stationnement </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Quitte Stat </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Chaussee Diff </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Meme Chaussee </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Aucune faute </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Portière </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+       <DefaultNEQ> Faute grave </DefaultNEQ>
+     <Strategy>
+     <Strat> règle </Strat>
+     <Strat> défaut </Strat>
+     </Strategy>
+    </Monovalued>
+    <Boolean  name="ObsFauteGrave">
+       <DefaultNEQ> vrai </DefaultNEQ>
+       <DefaultEQ> faux </DefaultEQ>
+     <Strategy>
+     <Strat> question </Strat>
+     <Strat> défaut </Strat>
+     </Strategy>
+     <ToAsk> Y a-t-il une faute grave dans les observations ? </ToAsk>
+    </Boolean>
+    <Boolean  name="StationnementTrottoir">
+     <Strategy>
+     <Strat> question </Strat>
+     </Strategy>
+    </Boolean>
+    <Boolean  name="CasePortiere">
+    </Boolean>
+    <Boolean  name="ObsAxeFranchi">
+     <Strategy>
+     <Strat> question </Strat>
+     </Strategy>
+    </Boolean>
+    <Boolean  name="ObsOrangeClignotant">
+     <Strategy>
+     <Strat> question </Strat>
+     </Strategy>
+    </Boolean>
+    <Monovalued  name="SousCategorie">
+     <Values>
+      <Val> 
+        <Value> Aucune </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Meme sens meme file </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Meme sens dif file </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> Sens dif </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+       <DefaultEQ> Aucune </DefaultEQ>
+       <DefaultNEQ> Meme sens meme file </DefaultNEQ>
+       <DefaultNEQ> Meme sens dif file </DefaultNEQ>
+       <DefaultNEQ> Sens dif </DefaultNEQ>
+     <Strategy>
+     <Strat> règle </Strat>
+     <Strat> défaut </Strat>
+     </Strategy>
+    </Monovalued>
+    <Boolean  name="ObsSensInverse">
+     <Strategy>
+     <Strat> question </Strat>
+     </Strategy>
+    </Boolean>
+    <Monovalued  name="NouveauTort">
+     <Values>
+      <Val> 
+        <Value> 0 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 25 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 50 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 75 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+      <Val> 
+        <Value> 100 </Value>
+        <Left> 0 </Left>
+        <Top> 0 </Top>
+      </Val> 
+     </Values>
+     <Strategy>
+     <Strat> règle </Strat>
+     </Strategy>
+    </Monovalued>
+   </ATTRIBUTES>
+   <INSTANCES>
+    <INSTANCE  name="A"> 
+     <ATTRIBUTES>
+      <Monovalued  name="Tort">
+       <ToAsk> Que vaut  Tort de A ? </ToAsk>
+       <ToDeny> Tort de A # ^ </ToDeny>
+       <ToAffirm> Tort de A = ^ </ToAffirm>
+      </Monovalued>
+      <Boolean  name="StationnementTrottoir">
+       <DefaultNEQ> vrai </DefaultNEQ>
+       <DefaultEQ> faux </DefaultEQ>
+       <ToAsk> Est ce que  StationnementTrottoir de A ? </ToAsk>
+       <ToDeny> $1§StationnementTrottoir = faux </ToDeny>
+       <ToAffirm> $1§StationnementTrottoir = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case1">
+       <ToAsk> Est ce que  Case1 de A ? </ToAsk>
+       <ToDeny> $1§Case1 = faux </ToDeny>
+       <ToAffirm> $1§Case1 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case2">
+       <ToAsk> Est ce que  Case2 de A ? </ToAsk>
+       <ToDeny> $1§Case2 = faux </ToDeny>
+       <ToAffirm> $1§Case2 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case3">
+       <ToAsk> Est ce que  Case3 de A ? </ToAsk>
+       <ToDeny> $1§Case3 = faux </ToDeny>
+       <ToAffirm> $1§Case3 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case4">
+       <ToAsk> Est ce que  Case4 de A ? </ToAsk>
+       <ToDeny> $1§Case4 = faux </ToDeny>
+       <ToAffirm> $1§Case4 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case5">
+       <ToAsk> Est ce que  Case5 de A ? </ToAsk>
+       <ToDeny> $1§Case5 = faux </ToDeny>
+       <ToAffirm> $1§Case5 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case6">
+       <ToAsk> Est ce que  Case6 de A ? </ToAsk>
+       <ToDeny> $1§Case6 = faux </ToDeny>
+       <ToAffirm> $1§Case6 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case7">
+       <ToAsk> Est ce que  Case7 de A ? </ToAsk>
+       <ToDeny> $1§Case7 = faux </ToDeny>
+       <ToAffirm> $1§Case7 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case8">
+       <ToAsk> Est ce que  Case8 de A ? </ToAsk>
+       <ToDeny> $1§Case8 = faux </ToDeny>
+       <ToAffirm> $1§Case8 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case9">
+       <ToAsk> Est ce que  Case9 de A ? </ToAsk>
+       <ToDeny> $1§Case9 = faux </ToDeny>
+       <ToAffirm> $1§Case9 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case10">
+       <ToAsk> Est ce que  Case10 de A ? </ToAsk>
+       <ToDeny> $1§Case10 = faux </ToDeny>
+       <ToAffirm> $1§Case10 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case11">
+       <ToAsk> Est ce que  Case11 de A ? </ToAsk>
+       <ToDeny> $1§Case11 = faux </ToDeny>
+       <ToAffirm> $1§Case11 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case12">
+       <ToAsk> Est ce que  Case12 de A ? </ToAsk>
+       <ToDeny> $1§Case12 = faux </ToDeny>
+       <ToAffirm> $1§Case12 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case13">
+       <ToAsk> Est ce que  Case13 de A ? </ToAsk>
+       <ToDeny> $1§Case13 = faux </ToDeny>
+       <ToAffirm> $1§Case13 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case14">
+       <ToAsk> Est ce que  Case14 de A ? </ToAsk>
+       <ToDeny> $1§Case14 = faux </ToDeny>
+       <ToAffirm> $1§Case14 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case15">
+       <ToAsk> Est ce que  Case15 de A ? </ToAsk>
+       <ToDeny> $1§Case15 = faux </ToDeny>
+       <ToAffirm> $1§Case15 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case16">
+       <ToAsk> Est ce que  Case16 de A ? </ToAsk>
+       <ToDeny> $1§Case16 = faux </ToDeny>
+       <ToAffirm> $1§Case16 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case17">
+       <ToAsk> Est ce que  Case17 de A ? </ToAsk>
+       <ToDeny> $1§Case17 = faux </ToDeny>
+       <ToAffirm> $1§Case17 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="StationnementRegulier">
+       <ToAsk> Est ce que  StationnementRegulier de A ? </ToAsk>
+       <ToDeny> $1§StationnementRegulier = faux </ToDeny>
+       <ToAffirm> $1§StationnementRegulier = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="CasePortiere">
+       <ToAsk> Est ce que  CasePortiere de A ? </ToAsk>
+       <ToDeny> $1§CasePortiere = faux </ToDeny>
+       <ToAffirm> $1§CasePortiere = vrai </ToAffirm>
+      </Boolean>
+      <Monovalued  name="SousCategorie">
+       <DefaultEQ> Aucune </DefaultEQ>
+       <DefaultNEQ> Meme sens meme file </DefaultNEQ>
+       <DefaultNEQ> Meme sens dif file </DefaultNEQ>
+       <DefaultNEQ> Sens dif </DefaultNEQ>
+       <ToAsk> Que vaut  SousCategorie de A ? </ToAsk>
+       <ToDeny> SousCategorie de A # ^ </ToDeny>
+       <ToAffirm> SousCategorie de A = ^ </ToAffirm>
+      </Monovalued>
+      <Boolean  name="ObsOrangeClignotant">
+       <ToAsk> Est ce que  ObsOrangeClignotant de A ? </ToAsk>
+       <ToDeny> $1§ObsOrangeClignotant = faux </ToDeny>
+       <ToAffirm> $1§ObsOrangeClignotant = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="ObsAxeFranchi">
+       <ToAsk> Est ce que  ObsAxeFranchi de A ? </ToAsk>
+       <ToDeny> $1§ObsAxeFranchi = faux </ToDeny>
+       <ToAffirm> $1§ObsAxeFranchi = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="ObsSensInverse">
+       <DefaultNEQ> vrai </DefaultNEQ>
+       <DefaultEQ> faux </DefaultEQ>
+       <ToAsk> Est ce que  ObsSensInverse de A ? </ToAsk>
+       <ToDeny> $1§ObsSensInverse = faux </ToDeny>
+       <ToAffirm> $1§ObsSensInverse = vrai </ToAffirm>
+      </Boolean>
+      <Monovalued  name="Categorie">
+       <DefaultNEQ> Faute grave </DefaultNEQ>
+       <ToAsk> Que vaut  Categorie de A ? </ToAsk>
+       <ToDeny> Categorie de A # ^ </ToDeny>
+       <ToAffirm> Categorie de A = ^ </ToAffirm>
+      </Monovalued>
+      <Monovalued  name="NouveauTort">
+       <ToAsk> Que vaut  NouveauTort de A ? </ToAsk>
+       <ToDeny> ^ </ToDeny>
+       <ToAffirm> ^ </ToAffirm>
+      </Monovalued>
+      <Boolean  name="ObsFauteGrave">
+       <DefaultNEQ> vrai </DefaultNEQ>
+       <DefaultEQ> faux </DefaultEQ>
+       <ToAsk> Est ce que  ObsFauteGrave de A ? </ToAsk>
+       <ToDeny> $1§ObsFauteGrave = faux </ToDeny>
+       <ToAffirm> $1§ObsFauteGrave = vrai </ToAffirm>
+      </Boolean>
+     </ATTRIBUTES>
+    </INSTANCE> 
+    <INSTANCE  name="B"> 
+     <ATTRIBUTES>
+      <Monovalued  name="Tort">
+       <ToAsk> Que vaut  Tort de B ? </ToAsk>
+       <ToDeny> Tort de B # ^ </ToDeny>
+       <ToAffirm> Tort de B = ^ </ToAffirm>
+      </Monovalued>
+      <Boolean  name="StationnementTrottoir">
+       <DefaultNEQ> vrai </DefaultNEQ>
+       <DefaultEQ> faux </DefaultEQ>
+       <ToAsk> Est ce que  StationnementTrottoir de B ? </ToAsk>
+       <ToDeny> $2§StationnementTrottoir = faux </ToDeny>
+       <ToAffirm> $2§StationnementTrottoir = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case1">
+       <ToAsk> Est ce que  Case1 de B ? </ToAsk>
+       <ToDeny> $2§Case1 = faux </ToDeny>
+       <ToAffirm> $2§Case1 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case2">
+       <ToAsk> Est ce que  Case2 de B ? </ToAsk>
+       <ToDeny> $2§Case2 = faux </ToDeny>
+       <ToAffirm> $2§Case2 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case3">
+       <ToAsk> Est ce que  Case3 de B ? </ToAsk>
+       <ToDeny> $2§Case3 = faux </ToDeny>
+       <ToAffirm> $2§Case3 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case4">
+       <ToAsk> Est ce que  Case4 de B ? </ToAsk>
+       <ToDeny> $2§Case4 = faux </ToDeny>
+       <ToAffirm> $2§Case4 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case5">
+       <ToAsk> Est ce que  Case5 de B ? </ToAsk>
+       <ToDeny> $2§Case5 = faux </ToDeny>
+       <ToAffirm> $2§Case5 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case6">
+       <ToAsk> Est ce que  Case6 de B ? </ToAsk>
+       <ToDeny> $2§Case6 = faux </ToDeny>
+       <ToAffirm> $2§Case6 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case7">
+       <ToAsk> Est ce que  Case7 de B ? </ToAsk>
+       <ToDeny> $2§Case7 = faux </ToDeny>
+       <ToAffirm> $2§Case7 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case8">
+       <ToAsk> Est ce que  Case8 de B ? </ToAsk>
+       <ToDeny> $2§Case8 = faux </ToDeny>
+       <ToAffirm> $2§Case8 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case9">
+       <ToAsk> Est ce que  Case9 de B ? </ToAsk>
+       <ToDeny> $2§Case9 = faux </ToDeny>
+       <ToAffirm> $2§Case9 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case10">
+       <ToAsk> Est ce que  Case10 de B ? </ToAsk>
+       <ToDeny> $2§Case10 = faux </ToDeny>
+       <ToAffirm> $2§Case10 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case11">
+       <ToAsk> Est ce que  Case11 de B ? </ToAsk>
+       <ToDeny> $2§Case11 = faux </ToDeny>
+       <ToAffirm> $2§Case11 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case12">
+       <ToAsk> Est ce que  Case12 de B ? </ToAsk>
+       <ToDeny> $2§Case12 = faux </ToDeny>
+       <ToAffirm> $2§Case12 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case13">
+       <ToAsk> Est ce que  Case13 de B ? </ToAsk>
+       <ToDeny> $2§Case13 = faux </ToDeny>
+       <ToAffirm> $2§Case13 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case14">
+       <ToAsk> Est ce que  Case14 de B ? </ToAsk>
+       <ToDeny> $2§Case14 = faux </ToDeny>
+       <ToAffirm> $2§Case14 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case15">
+       <ToAsk> Est ce que  Case15 de B ? </ToAsk>
+       <ToDeny> $2§Case15 = faux </ToDeny>
+       <ToAffirm> $2§Case15 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case16">
+       <ToAsk> Est ce que  Case16 de B ? </ToAsk>
+       <ToDeny> $2§Case16 = faux </ToDeny>
+       <ToAffirm> $2§Case16 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="Case17">
+       <ToAsk> Est ce que  Case17 de B ? </ToAsk>
+       <ToDeny> $2§Case17 = faux </ToDeny>
+       <ToAffirm> $2§Case17 = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="StationnementRegulier">
+       <ToAsk> Est ce que  StationnementRegulier de B ? </ToAsk>
+       <ToDeny> $2§StationnementRegulier = faux </ToDeny>
+       <ToAffirm> $2§StationnementRegulier = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="CasePortiere">
+       <ToAsk> Est ce que  CasePortiere de B ? </ToAsk>
+       <ToDeny> $2§CasePortiere = faux </ToDeny>
+       <ToAffirm> $2§CasePortiere = vrai </ToAffirm>
+      </Boolean>
+      <Monovalued  name="SousCategorie">
+       <DefaultEQ> Aucune </DefaultEQ>
+       <DefaultNEQ> Meme sens meme file </DefaultNEQ>
+       <DefaultNEQ> Meme sens dif file </DefaultNEQ>
+       <DefaultNEQ> Sens dif </DefaultNEQ>
+       <ToAsk> Que vaut  SousCategorie de B ? </ToAsk>
+       <ToDeny> SousCategorie de B # ^ </ToDeny>
+       <ToAffirm> SousCategorie de B = ^ </ToAffirm>
+      </Monovalued>
+      <Boolean  name="ObsOrangeClignotant">
+       <ToAsk> Est ce que  ObsOrangeClignotant de B ? </ToAsk>
+       <ToDeny> $2§ObsOrangeClignotant = faux </ToDeny>
+       <ToAffirm> $2§ObsOrangeClignotant = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="ObsAxeFranchi">
+       <ToAsk> Est ce que  ObsAxeFranchi de B ? </ToAsk>
+       <ToDeny> $2§ObsAxeFranchi  = faux </ToDeny>
+       <ToAffirm> $2§ObsAxeFranchi  = vrai </ToAffirm>
+      </Boolean>
+      <Boolean  name="ObsSensInverse">
+       <DefaultNEQ> vrai </DefaultNEQ>
+       <DefaultEQ> faux </DefaultEQ>
+       <ToAsk> Est ce que  ObsSensInverse de B ? </ToAsk>
+       <ToDeny> $2§ObsSensInverse = faux </ToDeny>
+       <ToAffirm> $2§ObsSensInverse = vrai </ToAffirm>
+      </Boolean>
+      <Monovalued  name="Categorie">
+       <DefaultNEQ> Faute grave </DefaultNEQ>
+       <ToAsk> Que vaut  Categorie de B ? </ToAsk>
+       <ToDeny> Categorie de B # ^ </ToDeny>
+       <ToAffirm> Categorie de B = ^ </ToAffirm>
+      </Monovalued>
+      <Monovalued  name="NouveauTort">
+       <ToAsk> Que vaut  NouveauTort de B ? </ToAsk>
+       <ToDeny> ^ </ToDeny>
+       <ToAffirm> ^ </ToAffirm>
+      </Monovalued>
+      <Boolean  name="ObsFauteGrave">
+       <DefaultNEQ> vrai </DefaultNEQ>
+       <DefaultEQ> faux </DefaultEQ>
+       <ToAsk> Est ce que  ObsFauteGrave de B ? </ToAsk>
+       <ToDeny> $2§ObsFauteGrave = faux </ToDeny>
+       <ToAffirm> $2§ObsFauteGrave = vrai </ToAffirm>
+      </Boolean>
+     </ATTRIBUTES>
+    </INSTANCE> 
+   </INSTANCES>
+  </CONCEPT>
+ </CONCEPTS>
+
+ <REPORTS>
+  <REPORT  name="nouvelle règle tort">
+   <Footnote>   1:C§nomRègleTort;  0;0;G </Footnote>
+   <Footnote>   2:Vehicule§Case1;  0;0;G </Footnote>
+   <Footnote>   3:Vehicule§Case2;  0;0;G </Footnote>
+   <Footnote>   4:Vehicule§Case3;  0;0;G </Footnote>
+   <Footnote>   5:Vehicule§Case4;  0;0;G </Footnote>
+   <Footnote>   6:Vehicule§Case5;  0;0;G </Footnote>
+   <Footnote>   7:Vehicule§Case6;  0;0;G </Footnote>
+   <Footnote>   8:Vehicule§Case7;  0;0;G </Footnote>
+   <Footnote>   9:Vehicule§Case8;  0;0;G </Footnote>
+   <Footnote>  10:Vehicule§Case9;  0;0;G </Footnote>
+   <Footnote>  11:Vehicule§Case10;  0;0;G </Footnote>
+   <Footnote>  12:Vehicule§Case11;  0;0;G </Footnote>
+   <Footnote>  13:Vehicule§Case12;  0;0;G </Footnote>
+   <Footnote>  14:Vehicule§Case13;  0;0;G </Footnote>
+   <Footnote>  15:Vehicule§Case14;  0;0;G </Footnote>
+   <Footnote>  16:Vehicule§Case15;  0;0;G </Footnote>
+   <Footnote>  17:Vehicule§Case16;  0;0;G </Footnote>
+   <Footnote>  18:Vehicule§Case17;  0;0;G </Footnote>
+   <Footnote>  19:Vehicule§StationnementRegulier;  0;0;G </Footnote>
+   <Footnote>  20:Vehicule§ObsFauteGrave;  0;0;G </Footnote>
+   <Footnote>  21:Vehicule§StationnementTrottoir;  0;0;G </Footnote>
+   <Footnote>  22:Vehicule§CasePortiere;  0;0;G </Footnote>
+   <Footnote>  23:Vehicule§ObsAxeFranchi;  0;0;G </Footnote>
+   <Footnote>  24:Vehicule§ObsOrangeClignotant;  0;0;G </Footnote>
+   <Footnote>  25:Vehicule§ObsSensInverse;  0;0;G </Footnote>
+   <Footnote>  26:Constat§Agglo;  0;0;G </Footnote>
+   <Footnote>  27:A§NouveauTort;  0;0;G </Footnote>
+   <Footnote>  28:B§NouveauTort;  0;0;G </Footnote>
+  </REPORT>
+  <REPORT  name="modification de règle">
+   <Footnote>   1:Constat§nomRègleUtilisée;  0;0;G </Footnote>
+   <Footnote>   2:A§NouveauTort;  0;0;G </Footnote>
+   <Footnote>   3:B§NouveauTort;  0;0;G </Footnote>
+  </REPORT>
+  <REPORT  name="nouvelle règle incohérence">
+   <Footnote>   1:C§nomRègleInco;  0;0;G </Footnote>
+   <Footnote>   2:Vehicule§Case1;  0;0;G </Footnote>
+   <Footnote>   3:Vehicule§Case2;  0;0;G </Footnote>
+   <Footnote>   4:Vehicule§Case3;  0;0;G </Footnote>
+   <Footnote>   5:Vehicule§Case4;  0;0;G </Footnote>
+   <Footnote>   6:Vehicule§Case5;  0;0;G </Footnote>
+   <Footnote>   7:Vehicule§Case6;  0;0;G </Footnote>
+   <Footnote>   8:Vehicule§Case7;  0;0;G </Footnote>
+   <Footnote>   9:Vehicule§Case8;  0;0;G </Footnote>
+   <Footnote>  10:Vehicule§Case9;  0;0;G </Footnote>
+   <Footnote>  11:Vehicule§Case10;  0;0;G </Footnote>
+   <Footnote>  12:Vehicule§Case11;  0;0;G </Footnote>
+   <Footnote>  13:Vehicule§Case12;  0;0;G </Footnote>
+   <Footnote>  14:Vehicule§Case13;  0;0;G </Footnote>
+   <Footnote>  15:Vehicule§Case14;  0;0;G </Footnote>
+   <Footnote>  16:Vehicule§Case15;  0;0;G </Footnote>
+   <Footnote>  17:Vehicule§Case16;  0;0;G </Footnote>
+   <Footnote>  18:Vehicule§Case17;  0;0;G </Footnote>
+   <Footnote>  19:Vehicule§StationnementRegulier;  0;0;G </Footnote>
+   <Footnote>  20:Vehicule§ObsFauteGrave;  0;0;G </Footnote>
+   <Footnote>  21:Vehicule§StationnementTrottoir;  0;0;G </Footnote>
+   <Footnote>  22:Vehicule§CasePortiere;  0;0;G </Footnote>
+   <Footnote>  23:Vehicule§ObsAxeFranchi;  0;0;G </Footnote>
+   <Footnote>  24:Vehicule§ObsOrangeClignotant;  0;0;G </Footnote>
+   <Footnote>  25:Vehicule§ObsSensInverse;  0;0;G </Footnote>
+   <Footnote>  26:Constat§Agglo;  0;0;G </Footnote>
+  </REPORT>
+ </REPORTS>
+
+ <SCREENS>
+  <SCREEN  name="Ecran résultat simple">
+   <ScreenColor> #00FFFBF0 </ScreenColor>
+   <ScreenWidth> 600 </ScreenWidth>
+   <ScreenHeight> 521 </ScreenHeight>
+   <Controls>
+    <Label>
+     <RefControl> A§Tort </RefControl>
+     <Info> 0 </Info>
+     <Top> 130 </Top>
+     <Left> 150 </Left>
+     <Width> 39 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Label>
+     <RefControl> B§Tort </RefControl>
+     <Info> 0 </Info>
+     <Top> 154 </Top>
+     <Left> 149 </Left>
+     <Width> 39 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Label>
+     <RefControl> A§Categorie </RefControl>
+     <Info> 0 </Info>
+     <Top> 127 </Top>
+     <Left> 256 </Left>
+     <Width> 70 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Label>
+     <RefControl> B§Categorie </RefControl>
+     <Info> 0 </Info>
+     <Top> 154 </Top>
+     <Left> 254 </Left>
+     <Width> 70 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+   </Controls>
+  </SCREEN>
+  <SCREEN  name="Ecran résultat">
+   <ScreenColor> #00FFFBF0 </ScreenColor>
+   <ScreenWidth> 600 </ScreenWidth>
+   <ScreenHeight> 521 </ScreenHeight>
+   <Controls>
+    <Label>
+     <RefControl> A§Tort </RefControl>
+     <Info> 0 </Info>
+     <Top> 130 </Top>
+     <Left> 150 </Left>
+     <Width> 39 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Label>
+     <RefControl> B§Tort </RefControl>
+     <Info> 0 </Info>
+     <Top> 154 </Top>
+     <Left> 149 </Left>
+     <Width> 39 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Label>
+     <RefControl> A§Categorie </RefControl>
+     <Info> 0 </Info>
+     <Top> 127 </Top>
+     <Left> 256 </Left>
+     <Width> 70 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Label>
+     <RefControl> B§Categorie </RefControl>
+     <Info> 0 </Info>
+     <Top> 154 </Top>
+     <Left> 254 </Left>
+     <Width> 70 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Label>
+     <RefControl> Etes-vous satisfait ? </RefControl>
+     <Info> 0 </Info>
+     <Top> 226 </Top>
+     <Left> 149 </Left>
+     <Width> 116 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Checkbox>
+     <RefControl> C§Satisfait </RefControl>
+     <Info> 0 </Info>
+     <Top> 224 </Top>
+     <Left> 287 </Left>
+     <Width> 15 </Width>
+     <Height> 17 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+   </Controls>
+  </SCREEN>
+  <SCREEN  name="Ecran Constat">
+   <ScreenColor> #00FFFBF0 </ScreenColor>
+   <Background> Z:\MC\ProjetConstatVoiture\FicheConstat.JPG </Background>
+   <ScreenWidth> 760 </ScreenWidth>
+   <ScreenHeight> 1080 </ScreenHeight>
+   <Controls>
+    <Label>
+     <RefControl> Agglomération </RefControl>
+     <Info> 0 </Info>
+     <Top> 45 </Top>
+     <Left> 295 </Left>
+     <Width> 81 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Checkbox>
+     <RefControl> A§Case1 </RefControl>
+     <Info> 0 </Info>
+     <Top> 190 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case2 </RefControl>
+     <Info> 0 </Info>
+     <Top> 204 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case3 </RefControl>
+     <Info> 0 </Info>
+     <Top> 237 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case4 </RefControl>
+     <Info> 0 </Info>
+     <Top> 258 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case5 </RefControl>
+     <Info> 0 </Info>
+     <Top> 291 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case6 </RefControl>
+     <Info> 0 </Info>
+     <Top> 321 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case7 </RefControl>
+     <Info> 0 </Info>
+     <Top> 357 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case8 </RefControl>
+     <Info> 0 </Info>
+     <Top> 390 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case9 </RefControl>
+     <Info> 0 </Info>
+     <Top> 435 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case10 </RefControl>
+     <Info> 0 </Info>
+     <Top> 468 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case11 </RefControl>
+     <Info> 0 </Info>
+     <Top> 488 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case12 </RefControl>
+     <Info> 0 </Info>
+     <Top> 509 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case13 </RefControl>
+     <Info> 0 </Info>
+     <Top> 528 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case14 </RefControl>
+     <Info> 0 </Info>
+     <Top> 550 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case15 </RefControl>
+     <Info> 0 </Info>
+     <Top> 570 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case16 </RefControl>
+     <Info> 0 </Info>
+     <Top> 614 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§Case17 </RefControl>
+     <Info> 0 </Info>
+     <Top> 646 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case1 </RefControl>
+     <Info> 0 </Info>
+     <Top> 189 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case2 </RefControl>
+     <Info> 0 </Info>
+     <Top> 204 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case3 </RefControl>
+     <Info> 0 </Info>
+     <Top> 237 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case4 </RefControl>
+     <Info> 0 </Info>
+     <Top> 258 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case5 </RefControl>
+     <Info> 0 </Info>
+     <Top> 291 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case6 </RefControl>
+     <Info> 0 </Info>
+     <Top> 321 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case7 </RefControl>
+     <Info> 0 </Info>
+     <Top> 356 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case8 </RefControl>
+     <Info> 0 </Info>
+     <Top> 390 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case9 </RefControl>
+     <Info> 0 </Info>
+     <Top> 436 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case10 </RefControl>
+     <Info> 0 </Info>
+     <Top> 468 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case11 </RefControl>
+     <Info> 0 </Info>
+     <Top> 488 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case12 </RefControl>
+     <Info> 0 </Info>
+     <Top> 509 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case13 </RefControl>
+     <Info> 0 </Info>
+     <Top> 527 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case14 </RefControl>
+     <Info> 0 </Info>
+     <Top> 548 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case15 </RefControl>
+     <Info> 0 </Info>
+     <Top> 571 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case16 </RefControl>
+     <Info> 0 </Info>
+     <Top> 614 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§Case17 </RefControl>
+     <Info> 0 </Info>
+     <Top> 645 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> C§Agglo </RefControl>
+     <Info> 0 </Info>
+     <Top> 45 </Top>
+     <Left> 280 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> A§CasePortiere </RefControl>
+     <Info> 0 </Info>
+     <Top> 219 </Top>
+     <Left> 273 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+    <Checkbox>
+     <RefControl> B§CasePortiere </RefControl>
+     <Info> 0 </Info>
+     <Top> 219 </Top>
+     <Left> 464 </Left>
+     <Width> 15 </Width>
+     <Height> 15 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Checkbox>
+   </Controls>
+  </SCREEN>
+  <SCREEN  name="Ecran Accueil">
+   <ScreenColor> #00FFFBF0 </ScreenColor>
+   <ScreenWidth> 600 </ScreenWidth>
+   <ScreenHeight> 521 </ScreenHeight>
+   <Controls>
+    <Label>
+     <RefControl> Bonjour, choisissez une action : </RefControl>
+     <Info> 0 </Info>
+     <Top> 25 </Top>
+     <Left> 30 </Left>
+     <Width> 186 </Width>
+     <Height> 13 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Label>
+    <Listbox>
+     <RefControl> C§Choix </RefControl>
+     <Info> 0 </Info>
+     <Top> 49 </Top>
+     <Left> 33 </Left>
+     <Width> 160 </Width>
+     <Height> 97 </Height>
+     <Police> MS Sans Serif </Police>
+     <Size> 8 </Size>
+     <Color> #00000000 </Color>
+     <Style> G </Style>
+    </Listbox>
+   </Controls>
+  </SCREEN>
+ </SCREENS>
+
+ <BASES>
+  <BASE  name="Base de Règles">
+    <Inhibited> no </Inhibited>
+  </BASE>
+  <BASE  name="Coherence">
+    <PartOf> Base de Règles </PartOf>
+    <Inhibited> no </Inhibited>
+  </BASE>
+  <BASE  name="Mise en coherence">
+    <PartOf> Coherence </PartOf>
+    <Inhibited> no </Inhibited>
+    <RULE  name="Reso Incoherence Cases 16">
+     <If>
+      A§Case16=vrai
+      B§Case16=vrai
+     </If>
+     <Then>
+      Message( "Vous avez indiqué que les deux véhicules provenaient de droite. Reprécisez ces deux informations à partir des croquis et observations : " )
+      Saisir(A§Case16)
+      Saisir(B§Case16)
+     </Then>
+    </RULE>
+    <RULE  name="Reso Incohérence Cases 12 et 13 pour un meme vehicule">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case12=vrai
+      $1§Case13=vrai
+     </If>
+     <Then>
+      Message( "Pouvez vous, à l'aide des observations, préciser si le véhicule $1 vire à droite ou à gauche" )
+      Saisir($1§Case12)
+      Saisir($1§Case13)
+     </Then>
+    </RULE>
+    <RULE  name="RésoAuto Cases 1 15">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case1=vrai
+      $1§Case15=vrai
+     </If>
+     <Then>
+      Ajouter($1§StationnementRegulier=faux)
+     </Then>
+    </RULE>
+    <RULE  name="Incohérence Cases 14 et 1">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case14=vrai
+      $1§Case1=vrai
+     </If>
+     <Then>
+      Blanchir($1§Case1)
+     </Then>
+    </RULE>
+    <RULE  name="Incohérence Cases 14 et 2">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case14=vrai
+      $1§Case2=vrai
+     </If>
+     <Then>
+      Blanchir($1§Case2)
+     </Then>
+    </RULE>
+    <RULE  name="Incohérence Cases 14 et 3">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case14=vrai
+      $1§Case3=vrai
+     </If>
+     <Then>
+      Blanchir($1§Case3)
+     </Then>
+    </RULE>
+    <RULE  name="Incohérence Cases 1 et 2">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case2=vrai
+      $1§Case1=vrai
+     </If>
+     <Then>
+      Blanchir($1§Case1)
+     </Then>
+    </RULE>
+    <RULE  name="Incohérence Cases 1 et 3">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case3=vrai
+      $1§Case1=vrai
+     </If>
+     <Then>
+      Blanchir($1§Case1)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Coherence du constat">
+    <PartOf> Coherence </PartOf>
+    <Inhibited> no </Inhibited>
+    <RULE  name="Incoherence Cases 8">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <Param> $3:Constat </Param>
+     <If>
+      $1§Case8=vrai
+      $2§Case8=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($3§Coherent=faux)
+     </Then>
+    </RULE>
+    <RULE  name="Incoherence Cases 16">
+     <If>
+      A§Case16=vrai
+      B§Case16=vrai
+     </If>
+     <Then>
+      Ajouter(C§Coherent=faux)
+     </Then>
+    </RULE>
+    <RULE  name="Incohérence Cases 12 et 13 pour un meme vehicule">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Constat </Param>
+     <If>
+      $1§Case12=vrai
+      $1§Case13=vrai
+     </If>
+     <Then>
+      Ajouter($2§Coherent=faux)
+     </Then>
+    </RULE>
+    <RULE  name="Incoherence si 1 et 1">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <Param> $3:Constat </Param>
+     <If>
+      $1§Case1=vrai
+      $2§Case1=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($3§Coherent=faux)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Torts">
+    <PartOf> Base de Règles </PartOf>
+    <Inhibited> no </Inhibited>
+  </BASE>
+  <BASE  name="Fautes graves">
+    <PartOf> Torts </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="Case 17 Prio ou Feu">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case17=vrai
+     </If>
+     <Then>
+      Ajouter($1§Categorie=Faute grave)
+     </Then>
+    </RULE>
+    <RULE  name="Faute grave d'un vehicule">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Categorie=Faute grave
+      $2§Categorie#Faute grave
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+     </Then>
+    </RULE>
+    <RULE  name="Faute Grave observee">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§ObsFauteGrave=vrai
+     </If>
+     <Then>
+      Ajouter($1§Categorie=Faute grave)
+     </Then>
+    </RULE>
+    <RULE  name="Faute grave de deux vehicules">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Categorie=Faute grave
+      $2§Categorie=Faute grave
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Vehicule en stationnement">
+    <PartOf> Torts </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="En stationnement case 1">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case1=vrai
+     </If>
+     <Then>
+      Ajouter($1§Categorie=Stationnement)
+     </Then>
+    </RULE>
+    <RULE  name="Veh en stat regulier">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Categorie=Stationnement
+      $1§StationnementRegulier=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=0)
+      Ajouter($2§Tort=100)
+     </Then>
+    </RULE>
+    <RULE  name="Veh en stat irreg agglo trottoir">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <Param> $3:Constat </Param>
+     <If>
+      $1§Categorie=Stationnement
+      $1§StationnementRegulier=faux
+      $3§Agglo=vrai
+      $1§StationnementTrottoir=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=0)
+      Ajouter($2§Tort=100)
+     </Then>
+    </RULE>
+    <RULE  name="Veh en stat irreg agglo pas trottoir">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <Param> $3:Constat </Param>
+     <If>
+      $1§Categorie=Stationnement
+      $1§StationnementRegulier=faux
+      $3§Agglo=vrai
+      $1§StationnementTrottoir=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=25)
+      Ajouter($2§Tort=75)
+     </Then>
+    </RULE>
+    <RULE  name="Veh en stat irreg hors agglo">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <Param> $3:Constat </Param>
+     <If>
+      $1§Categorie=Stationnement
+      $1§StationnementRegulier=faux
+      $3§Agglo=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Vehicule quitant le stationnement">
+    <PartOf> Torts </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="un vehicule quite le stationnement">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case2=vrai
+      $2§Case2=faux
+      $2§Case15=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+     </Then>
+    </RULE>
+    <RULE  name="2 vehicules quitant le stationnement">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case2=vrai
+      $2§Case2=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Vehicules sur chaussees differentes">
+    <PartOf> Torts </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="Case16 et Axe non franchi">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case16=vrai
+      $1§ObsOrangeClignotant=faux
+      $1§ObsAxeFranchi=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=0)
+      Ajouter($2§Tort=100)
+     </Then>
+    </RULE>
+    <RULE  name="Case 16 pointilles franchis">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <Param> $3:Constat </Param>
+     <If>
+      $1§Case16=vrai
+      $1§ObsAxeFranchi=vrai
+      $3§CroquisAxe=pointille
+      $1§ObsOrangeClignotant=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=25)
+      Ajouter($2§Tort=75)
+     </Then>
+    </RULE>
+    <RULE  name="Case16 ligne continue franchie">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <Param> $3:Constat </Param>
+     <If>
+      $1§Case16=vrai
+      $1§ObsAxeFranchi=vrai
+      $3§CroquisAxe=ligne continu
+      $1§ObsOrangeClignotant=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+    <RULE  name="Prio feu clignotant">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case16=vrai
+      $1§Case12=vrai
+      $1§ObsOrangeClignotant=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+     </Then>
+    </RULE>
+    <RULE  name="Feu orange cligno seulement si qqun tourne à droite">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case12=faux
+     </If>
+     <Then>
+      Ajouter($1§ObsOrangeClignotant=faux)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Vehicules sur memes chaussees">
+    <PartOf> Torts </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="Sous cat meme sens meme file">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case8=vrai
+      $2§Case1=faux
+      $2§Case10=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§SousCategorie=Meme sens meme file)
+      Libérer(meme sens meme file)
+      Ajouter($1§Categorie=Meme Chaussee)
+      Ajouter($2§Categorie=Meme Chaussee)
+     </Then>
+    </RULE>
+    <RULE  name="Sous cat mm sens files dif 9">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case9=vrai
+     </If>
+     <Then>
+      Ajouter($1§SousCategorie=Meme sens dif file)
+      Libérer(même sens files differentes)
+      Ajouter($1§Categorie=Meme Chaussee)
+     </Then>
+    </RULE>
+    <RULE  name="Sous cat mm sens files dif 10">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§Case10=vrai
+     </If>
+     <Then>
+      Ajouter($1§SousCategorie=Meme sens dif file)
+      Libérer(même sens files differentes)
+      Ajouter($1§Categorie=Meme Chaussee)
+     </Then>
+    </RULE>
+    <RULE  name="Sous cat dif sens">
+     <Param> $1:Vehicule </Param>
+     <If>
+      $1§ObsSensInverse=vrai
+     </If>
+     <Then>
+      Ajouter($1§SousCategorie=Sens dif)
+      Libérer(meme file sens inverse)
+      Ajouter($1§Categorie=Meme Chaussee)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Cas portiere">
+    <PartOf> Torts </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="Portiere ouverte">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§CasePortiere=vrai
+      $2§CasePortiere=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+      Ajouter($1§Categorie=Portière)
+     </Then>
+    </RULE>
+    <RULE  name="Les deux portieres ouvertes">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§CasePortiere=vrai
+      $2§CasePortiere=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+      Ajouter($1§Categorie=Portière)
+      Ajouter($2§Categorie=Portière)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="meme sens meme file">
+    <PartOf> Vehicules sur memes chaussees </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="Vehicule 2 se gare">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§SousCategorie=Meme sens meme file
+      $2§Case3=vrai
+      $2§Case14=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=75)
+      Ajouter($2§Tort=25)
+     </Then>
+    </RULE>
+    <RULE  name="Vehicule 2 entre dans parking">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§SousCategorie=Meme sens meme file
+      $2§Case5=vrai
+      $2§Case14=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=75)
+      Ajouter($2§Tort=25)
+     </Then>
+    </RULE>
+    <RULE  name="Vehicule 2 recule">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§SousCategorie=Meme sens meme file
+      $2§Case14=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=0)
+      Ajouter($2§Tort=100)
+     </Then>
+    </RULE>
+    <RULE  name="Vehicule 2 quitte stat">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§SousCategorie=Meme sens meme file
+      $2§Case2=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=0)
+      Ajouter($2§Tort=100)
+     </Then>
+    </RULE>
+    <RULE  name="Vehicule 2 sort parking">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§SousCategorie=Meme sens meme file
+      $2§Case4=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=0)
+      Ajouter($2§Tort=100)
+     </Then>
+    </RULE>
+    <RULE  name="Cas normal">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§SousCategorie=Meme sens meme file
+      $2§Case14=faux
+      $2§Case2=faux
+      $2§Case3=faux
+      $2§Case4=faux
+      $2§Case5=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="même sens files differentes">
+    <PartOf> Vehicules sur memes chaussees </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="Normal A pas arrêté">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case9=vrai
+      $1§Case1=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+    <RULE  name="Double changement de file">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case10=vrai
+      $2§Case10=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+    <RULE  name="Un changement de file">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case10=vrai
+      $2§Case10=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="meme file sens inverse">
+    <PartOf> Vehicules sur memes chaussees </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="1 boulet">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case15=vrai
+      $2§Case15=faux
+      $2§ObsAxeFranchi=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+     </Then>
+    </RULE>
+    <RULE  name="2 boulets">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case15=vrai
+      $2§Case15=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+    <RULE  name="1 boulet Axe">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§ObsAxeFranchi=vrai
+      $2§ObsAxeFranchi=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=100)
+      Ajouter($2§Tort=0)
+     </Then>
+    </RULE>
+    <RULE  name="2 boulets Axe">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§ObsAxeFranchi=vrai
+      $2§ObsAxeFranchi=vrai
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+    <RULE  name="Cas normal ou pas">
+     <Param> $1:Vehicule </Param>
+     <Param> $2:Vehicule </Param>
+     <If>
+      $1§Case15=faux
+      $2§Case15=faux
+      $1§ObsAxeFranchi=faux
+      $2§ObsAxeFranchi=faux
+      $1#$2
+     </If>
+     <Then>
+      Ajouter($1§Tort=50)
+      Ajouter($2§Tort=50)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Maintenance">
+    <PartOf> Base de Règles </PartOf>
+    <Inhibited> yes </Inhibited>
+    <RULE  name="insatisfaction">
+     <If>
+      C§Satisfait=faux
+     </If>
+     <Then>
+      Saisir(C§défaut)
+     </Then>
+    </RULE>
+    <RULE  name="NvellerègleInco">
+     <If>
+      C§défaut=incohérence non gérée
+     </If>
+     <Then>
+      Saisir(C§nomRègleInco)
+      Déposer("regles.reg",nouvelle règle incohérence)
+     </Then>
+    </RULE>
+    <RULE  name="NvellerègleTort">
+     <If>
+      C§défaut=torts inconnus
+     </If>
+     <Then>
+      Saisir(C§nomRègleTort)
+      Saisir(A§NouveauTort)
+      Saisir(B§NouveauTort)
+      Déposer("regles.reg",nouvelle règle tort)
+     </Then>
+    </RULE>
+  </BASE>
+  <BASE  name="Tort supplémentaires">
+    <PartOf> Torts </PartOf>
+    <Inhibited> no </Inhibited>
+  </BASE>
+ </BASES>
+
+ <METABASES>
+  <METABASE  name="Base de Méta Règles">
+    <Inhibited> no </Inhibited>
+    <METARULE  name="Règle1 de Base de Méta Règles">
+     <Param> $1:²Règle </Param>
+     <If>
+$1§utilisée=vrai
+     </If>
+     <Then>
+Calculer(C§nomRègleUtilisée=C§nomRègleUtilisée+"\n")
+Calculer(C§nomRègleUtilisée=C§nomRègleUtilisée+$1§nom)
+     </Then>
+    </METARULE>
+  </METABASE>
+ </METABASES>
+
+ <TASKS>
+  <TASK  name="Tâche Principale">
+    <Method>
+(Présenter(Ecran Accueil) ,
+ Présenter(Ecran Constat) ,
+ Libérer(Coherence du constat) ,
+ Trouver(Constat§Coherent) ,
+ Ecrire(Constat§Coherent) ,
+ {C§Coherent}
+   (Libérer(Fautes graves) ,
+    Trouver(Vehicule§Categorie) ,
+    Trouver(Vehicule§Tort) ,
+    {inconnu(A§Tort)}
+      (Libérer(Cas portiere) ,
+       Trouver(Vehicule§Tort) ,
+       {inconnu(A§Tort)}
+         (Libérer(Vehicule en stationnement) ,
+          Trouver(Vehicule§Categorie) ,
+          Trouver(Vehicule§Tort) ,
+          {inconnu(A§Tort)}
+            (Libérer(Vehicules sur chaussees differentes) ,
+             Trouver(Vehicule§Categorie) ,
+             Trouver(Vehicule§Tort) ,
+             {inconnu(A§Tort)}
+               (Libérer(Vehicules sur memes chaussees) ,
+                Trouver(Vehicule§Categorie) ,
+                Trouver(Vehicule§SousCategorie) ,
+                Trouver(Vehicule§Tort) ,
+                {inconnu(A§Tort)}
+                  (Libérer(Vehicule quitant le stationnement) ,
+                   Trouver(Vehicule§Categorie) ,
+                   Trouver(Vehicule§Tort) ) ) ) ) ) ) ,
+ {(C§Choix=Maintenir)}
+   (Libérer(Maintenance) ,
+    Présenter(Ecran résultat) ,
+    {(C§défaut=incohérence non gérée)}
+      Présenter(nouvelle règle incohérence) ,
+    {(C§défaut=torts erronés)}
+      Présenter(modification de règle) ,
+    {(C§défaut=torts inconnus)}
+      Présenter(nouvelle règle tort) )
+|
+   Présenter(Ecran résultat simple) )
+    </Method>
+  </TASK>
+  <CONTROLTASK  name="²Traitement Incohérence">
+    <Method>
+(Message("Nous sommes en présence d'une incohérence. Le traitement est stoppé") ,
+ Arrêt )
+    </Method>
+  </CONTROLTASK>
+ </TASKS>
+</SherlockUnit>
