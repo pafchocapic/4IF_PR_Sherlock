@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO8859-1" ?>
+<!DOCTYPE SherlockProject SYSTEM "SherlockProject.dtd">
+
+<SherlockProject>
+ <SherlockVersion> Version 12/2010 </SherlockVersion>
+ <NAME>  base  </NAME>
+ <UPDATE> 08/12/2010 08:37:24 </UPDATE>
+
+  <DynamicRuleBaseOn>  Z:\MC\ProjetConstatVoiture\regles.reg  </DynamicRuleBaseOn>
+  <DynamicRuleBaseOn>  Z:\MC\ProjetConstatVoiture\bases.reg  </DynamicRuleBaseOn>
+</SherlockProject>
