@@ -5,7 +5,7 @@
  <SherlockVersion> Version 12/2010 </SherlockVersion>
  <NAME> base </NAME>
  <CREATION> 29/11/2010 09:34:36 </CREATION>
- <UPDATE> 16/12/2010 14:21:38 </UPDATE>
+ <UPDATE> 16/12/2010 14:20:04 </UPDATE>
 
  <CONFIGURATION>
   <TraceSystem> extended </TraceSystem>

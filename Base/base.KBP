@@ -4,8 +4,8 @@
 <SherlockProject>
  <SherlockVersion> Version 12/2010 </SherlockVersion>
  <NAME>  base  </NAME>
- <UPDATE> 08/12/2010 08:37:24 </UPDATE>
+ <UPDATE> 13/12/2010 17:01:50 </UPDATE>
 
-  <DynamicRuleBaseOn>  Z:\MC\ProjetConstatVoiture\regles.reg  </DynamicRuleBaseOn>
-  <DynamicRuleBaseOn>  Z:\MC\ProjetConstatVoiture\bases.reg  </DynamicRuleBaseOn>
+  <DynamicRuleBaseOn>  Z:\MC\ProjetConstatVoiture\Base\regles.reg  </DynamicRuleBaseOn>
+  <DynamicRuleBaseOn>  Z:\MC\ProjetConstatVoiture\Base\bases.reg  </DynamicRuleBaseOn>
 </SherlockProject>
